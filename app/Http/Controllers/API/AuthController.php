@@ -57,11 +57,11 @@ class AuthController extends BaseController
         }
     
         $user = auth()->user();
-        $roles = $user->roles; // Obtener los roles del usuario
+        $roles = $user->roles; 
     
         $success = $this->respondWithToken($token);
         $success['user'] = $user;
-        $success['roles'] = $roles;
+        // $success['roles'] = $roles;
     
         return $this->sendResponse($success, 'User login successfully.');
     }
