@@ -48,18 +48,24 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
-  
+        $credentials = $request->only('email', 'password');
+      
         if (! $token = auth()->attempt($credentials)) {
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         }
-  
+    
+        $user = auth()->user();
+        $roles = $user->roles; // Obtener los roles del usuario
+    
         $success = $this->respondWithToken($token);
-   
+        $success['user'] = $user;
+        $success['roles'] = $roles;
+    
         return $this->sendResponse($success, 'User login successfully.');
     }
+    
   
     /**
      * Get the authenticated User.
