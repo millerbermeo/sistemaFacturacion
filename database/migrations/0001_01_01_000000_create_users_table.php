@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id('id');
             $table->string('nombre');
             $table->string('apellido');
-            $table->string('username')->unique();
+            $table->string('username')->unique();   
             $table->string('email')->unique();
-            $table->integer('identificacion')->unique();
+            $table->string('identificacion')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('telefono');
+            $table->string('telefono');
+            $table->string('foto')->nullable();
             $table->enum('estado', ['activo', 'inactivo'])->default('activo');
             $table->rememberToken();
             $table->timestamps();

@@ -18,6 +18,11 @@ class Role extends Model
         'nombre',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     // Opcional: desactivar incremento automático si usas otro tipo de clave primaria
     public $incrementing = true;
 

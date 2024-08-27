@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API;
   
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
-use Validator;
+// use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
   
 class AuthController extends BaseController
@@ -16,8 +18,8 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request) {
-
+    public function register(Request $request) 
+    {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
@@ -27,19 +29,26 @@ class AuthController extends BaseController
             'c_password' => 'required|same:password',
             'identificacion' => 'required|string|max:255|unique:users',
             'telefono' => 'nullable|string|max:20',
-    
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Añadir validación para la imagen
         ]);
-     
-        if($validator->fails()){
+    
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-     
+    
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
+    
+        // Manejar la subida de la imagen
+        if ($request->hasFile('foto')) {
+            $filePath = $request->file('foto')->store('fotos', 'public'); // Guarda en el disco 'public' dentro de la carpeta 'fotos'
+            $input['foto'] = $filePath;
+        }
+    
         $user = User::create($input);
-        $success['user'] =  $user;
-   
-        return $this->sendResponse($success, 'User register successfully.');
+        $success['user'] = $user;
+    
+        return $this->sendResponse($success, 'User registered successfully.');
     }
   
   

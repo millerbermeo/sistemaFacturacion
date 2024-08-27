@@ -25,7 +25,7 @@ Route::group([
     Route::get('/', [UserController::class, 'index'])->middleware('auth:api');
     Route::get('/{id}', [UserController::class, 'show'])->middleware('auth:api');
     Route::post('/', [UserController::class, 'store'])->middleware('auth:api');
-    Route::put('/{id}', [UserController::class, 'update'])->middleware('auth:api');
+    Route::post('/{id}', [UserController::class, 'update'])->middleware('auth:api');
     Route::delete('/{id}', [UserController::class, 'destroy'])->middleware('auth:api');
 });
 
@@ -38,7 +38,7 @@ Route::group(
         Route::get('{model}', [DynamicCrudController::class, 'index'])->middleware('auth:api');
         Route::post('{model}', [DynamicCrudController::class, 'store'])->middleware('auth:api');
         Route::get('{model}/{id}', [DynamicCrudController::class, 'show'])->middleware('auth:api');
-        Route::put('{model}/{id}', [DynamicCrudController::class, 'update'])->middleware('auth:api');
+        Route::post('{model}/{id}', [DynamicCrudController::class, 'update'])->middleware('auth:api');
         Route::delete('{model}/{id}', [DynamicCrudController::class, 'destroy'])->middleware('auth:api');
     }
 );
